@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>git lucky - 9 astuces pour faire des pull requests que vos collègues vont adorer relire</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<style>
+			html {
+				font-size: 62.5%;
+			}
+			.reveal-viewport {
+				background: linear-gradient(180deg, #3d68ff, #8845ff);
+			}
+			p, li {
+				font-size: 4rem;
+			}
+			.reveal .slides {
+				text-align: left;
+			}
+			.reveal h1 {
+				font-size: 5rem;
+				text-transform: none;
+			}
+			.reveal h2 {
+				font-size: 4rem;
+			}
+			code {
+				background: #f6f8fa;
+				color: rgb(36, 41, 47);
+				font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+				font-weight: normal;
+				padding: 8px 16px;
+			}
+			ins {
+				color: lightgreen;
+				text-decoration: none;
+			}
+			.title {
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section class="title" data-background-color="black">
+					<img src="title.png">
+				</section>
+				<section>
+					<h1><code>git lucky</code></h1>
+					<p>
+						9 astuces pour faire des pull requests<br />
+						que vos collègues vont adorer relire
+					</p>
+				</section>
+				<section>
+					<p>Pourquoi ?</p>
+					<ol>
+						<li class="fragment">Rendre les revues de code plus faciles</li>
+						<li class="fragment">Rendre les <em>rebase</em> plus facile</li>
+						<li class="fragment">Rendre le débogage plus facile</li>
+						<li class="fragment">Rendre le contexte plus compréhensible</li>
+						<li class="fragment">Se positionner dans les <em>top contributors</em></li>
+					</ol>
+					<p class="fragment">
+						En bref : faire un petit effort pour faciliter la vie de ses collègues et la sienne.
+					</p>
+				</section>
+				<section>
+					<section>
+						<h1>1. Raconter une histoire</h1>
+						<p class="fragment fade-in">
+							<span class="fragment strike">
+								histoire du développement de la fonctionnalité
+							</span>
+						</p>
+					</section>
+					<section>
+						<p>👎 Don't</p>
+						<ul>
+							<li class="fragment">983b6c0 - add button to delete photo</li>
+							<li class="fragment">b23d15c - fix delete button label</li>
+							<li class="fragment">a0e4860 - fix delete button hover color</li>
+							<li class="fragment">e219184 - add missing acceptance test</li>
+						</ul>
+					</section>
+					<section>
+						<p>👍 Do</p>
+						<ul>
+							<li class="fragment" data-fragment-index="4">983b6c0 - [sr] sort properties alphabetically in Photo model </li>
+							<li class="fragment" data-fragment-index="3">b23d15c - add deletable property to Photo model</li>
+							<li class="fragment" data-fragment-index="2">a0e4860 - add method to delete photo in controller</li>
+							<li class="fragment" data-fragment-index="1">e219184 - add button to delete photo in template</li>
+						</ul>
+					</section>
+					<section>
+						<p>Raconter une histoire, c'est :</p>
+						<ul>
+							<li class="fragment">fournir les informations dans le bon ordre</li>
+							<li class="fragment">pour avoir le bon contexte au bon moment</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>2. Faire des commits atomiques</h1>
+					</section>
+					<section>
+						️atome : du grec ἄτομος, insécable
+						<p class="fragment">un commit atomique, c'est : <br />un changement dans le code significatif <br />et le plus petit possible</p>
+						<aside class="notes">
+							Exemple controller / use-case / repository
+						</aside>
+						<p class="fragment">La règle ? Difficile à dire.</p>
+						<p class="fragment">⚠️ "and" dans le message de commit</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>3. Isoler le superflu</h1>
+					</section>
+					<section>
+						<p>À mettre dans des commits seuls :</p>
+						<ul>
+							<li class="fragment">déplacer un bloc de code</li>
+							<li class="fragment">corriger l’indentation</li>
+							<li class="fragment">supprimer du code mort</li>
+							<li class="fragment">utiliser knex plutôt que bookshelf dans une méthode de repo</li>
+							<li class="fragment">il manque un test qui n’est pas celui du code qu’on va ajouter</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>4. Ajouter au stage avec parcimonie</h1>
+						<p class="fragment">Plutôt que <code>git add -a</code> ou <code>git add .</code></p>
+						<p class="fragment">Utiliser <code>git add -p</code> pour ajouter partiellement</p>
+					</section>
+					<section>
+						<img src="git-add-p.png">
+					</section>
+					<section>
+						<p>Intérêt : n'ajouter au commit que ce qui est pertinent</p>
+						<p class="fragment">Bonus : éviter d'ajouter les <code>console.log</code>, <code>.only</code>, etc.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>5. <code>git absorb</code></h1>
+						<p class="fragment">👌 Fixup auto dans les bons commits</p>
+					</section>
+					<section>
+						<p>git status</p>
+						<img src="git-absorb-1.png">
+					</section>
+					<section>
+						<p>git absorb</p>
+						<img src="git-absorb-2.png">
+					</section>
+					<section>
+						<p>git log</p>
+						<img src="git-absorb-3.png">
+					</section>
+					<section>
+						<code>git absorb</code><br />
+						un plugin git à installer :<br />
+						<a href="https://github.com/tummychow/git-absorb">
+							https://github.com/tummychow/git-absorb
+						</a>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>6. Utiliser une convention pour les messages de commit</h1>
+						<p class="fragment">Convention Pix (CONTRIBUTING.MD) : <code>If applied, this commit will _Your subject line here_</code></p>
+						<p class="fragment">Convention tacite de scope : [API], (admin), certif:</p>
+					</section>
+					<section>
+						<p>Conventional commit</p>
+						<ul>
+							<li class="fragment fade-in-then-semi-out">e219184 - add button to delete photo in template</li>
+							<li class="fragment fade-in-then-semi-out">e219184 - <ins>feat:</ins> add button to delete photo in template</li>
+							<li class="fragment fade-in-then-semi-out">e219184 - feat<ins>(admin)</ins>: add button to delete photo in template</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li class="fragment"><ins>feat:</ins> ajouter une fonctionnalité</li>
+							<li class="fragment"><ins>fix:</ins> corriger un bug</li>
+							<li class="fragment"><ins>style:</ins> corriger l’indentation</li>
+							<li class="fragment"><ins>chore:</ins> supprimer du code mort</li>
+							<li class="fragment"><ins>refactor:</ins> remplacer knex par bookshelf</li>
+							<li class="fragment"><ins>test:</ins> ajouter un test manquant</li>
+						</ul>
+					</section>
+					<section>
+						<p>Alternative : Gitmoji 💩</p>
+					</section>
+				</section>
+				<section>
+					<h1>7. Dire “pourquoi” plutôt que “quoi”</h1>
+					<li class="fragment">e219184 - rename addPicture method to addPhoto</li>
+					<li class="fragment">2043fbf - rename method for consistency</li>
+					<p class="fragment">Le “quoi” n’est pas évident ?<br />Le commit est probablement mal découpé.</p>
+				</section>
+				<section>
+					<section>
+						<h1>8. Limiter le nombre de lignes<br />modifiées par une PR</h1>
+						<h2>La règle Pix :</h2>
+						<ul>
+							<li class="fragment">- de 500 lignes : parfait </li>
+							<li class="fragment">+ de 500 lignes : est-ce qu'on peut splitter ?</li>
+							<li class="fragment">+ de 1000 lignes : splitter obligatoirement</li>
+						</ul>
+						<p class="fragment">Avertissement plutôt que règle à respecter strictement</p>
+					</section>
+					<section>
+						<h2>Encore mieux : faire des PR atomiques ⚛</h2>
+						<p>Se demander : qu'est-ce qui n'est pas essentiel à cette PR et pourrait être mis dans une autre ?</p>
+						<ul>
+							<li class="fragment">bugfix dans une PR [FEATURE]</li>
+							<li class="fragment">refacto important</li>
+							<li class="fragment">"scout rule"</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h1>9. Faire sa propre code review 🍒</h1>
+					<ul>
+						<li class="fragment">Le moment d'appliquer les astuces précédentes</li>
+						<li class="fragment">Exercice d'empathie : est-ce compréhensible ? est-ce long ?</li>
+						<li class="fragment">Si c'est pénible pour moi, ça le sera probablement aussi pour le reviewer</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Mercix !</h1>
+					<p>Des questions ?</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
